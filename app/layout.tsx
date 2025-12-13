@@ -12,18 +12,18 @@ const roboto = Inter({
 
 
 export const metadata: Metadata = {
-  title: "NoteHub – Create Note",
-  description: "Create, organize and manage your notes easily with NoteHub.",
+  title: "Tools – Create Tools",
+  description: "Create, organize and manage your notes easily with Tools.",
   openGraph: {
-    title: "NoteHub – Create Note",
-    description: "Create, organize and manage your notes easily with NoteHub.",
-    url: "https://08-zustand-wg99.vercel.app/",
+    title: "NoteHub – Create Tools",
+    description: "Create, organize and manage your notes easily with Tools.",
+    url: "",
     images: [
       {
-        url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+        url: "",
         width: 1200,
         height: 630,
-        alt: "NoteHub preview image",
+        alt: "Tools gifts",
       },
     ],
   },
