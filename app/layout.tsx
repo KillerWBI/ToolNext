@@ -1,4 +1,6 @@
 // app/layout.tsx
+import Footer from "@/components/layout/Footer/Footer";
+import Header from "@/components/layout/Header/Header";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -26,20 +28,21 @@ export const metadata: Metadata = {
         type: "website",
     },
 };
-
 export default function RootLayout({
-    children,
-    modal,
+  children,
+  modal,
 }: {
-    children: React.ReactNode;
-    modal: React.ReactNode;
+  children: React.ReactNode;
+  modal?: React.ReactNode;
 }) {
-    return (
-        <html lang="en">
-            <body className={`${inter.variable}`}>
-                <main>{children}</main>
-                {modal}
-            </body>
-        </html>
-    );
+  return (
+    <html lang="en">
+      <body className={`${inter.variable}`}>
+          <Header/>
+            <main>{children}</main>
+            {modal}
+          <Footer/>
+      </body>
+    </html>
+  );
 }
