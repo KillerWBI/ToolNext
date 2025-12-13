@@ -8,9 +8,8 @@ import styles from "./FeaturedToolsBlock.module.css";
 
 async function getFeaturedTools(): Promise<Tool[]> {
     try {
-        const apiUrl = process.env.NEXT_PUBLIC_SERVER_URL || "";
 
-        const res = await fetch(`${apiUrl}/tools`, {
+        const res = await fetch(`${process.env.NEXT_SERVER_URL}/api/tools`, {
             next: { revalidate: 60 }, // Обновлять данные раз в минуту
         });
 
