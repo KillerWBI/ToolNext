@@ -1,31 +1,26 @@
 .root {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px 0 8px;
+  gap: 14px;
 }
 
 .avatar {
   width: 72px;
   height: 72px;
-  border-radius: 50%;
+  border-radius: 999px;
   display: grid;
   place-items: center;
+
+  background: #d9d9d9;
+  color: rgba(0, 0, 0, 0.75);
 
   font-size: 26px;
   font-weight: 800;
   line-height: 1;
-
-  background: rgba(0, 0, 0, 0.08);
-}
-
-.info {
-  display: flex;
-  flex-direction: column;
 }
 
 .name {
   margin: 0;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
 }

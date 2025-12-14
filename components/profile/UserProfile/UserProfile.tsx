@@ -1,4 +1,3 @@
-// components/profile/UserProfile/UserProfile.tsx
 import styles from "./UserProfile.module.css";
 
 type Props = {
@@ -13,14 +12,12 @@ function getInitial(name: string) {
 
 export default function UserProfile({ name }: Props) {
   return (
-    <section className={styles.root} aria-label="Профіль користувача">
+    <section className={styles.root} aria-label="User profile">
       <div className={styles.avatar} aria-hidden="true">
         {getInitial(name)}
       </div>
 
-      <div className={styles.info}>
-        <p className={styles.name}>{name}</p>
-      </div>
+      <p className={styles.name}>{name}</p>
     </section>
   );
 }
