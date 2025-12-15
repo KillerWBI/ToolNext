@@ -26,9 +26,9 @@ const FilterBar = () => {
       try {
         setIsLoading(true);
 
-        const res = await getCategories();
+        const list = await getCategories();
 
-        const list = Array.isArray(res?.data) ? res.data : [];
+        console.log("Loaded categories:", list);
 
         setCategories(list);
       } catch (error) {
@@ -92,7 +92,9 @@ const FilterBar = () => {
           onClick={() => setOpen((prev) => !prev)}
         >
           {currentLabel}
-          <span className={styles.arrow} data-open={open}></span>
+          <svg className={`${styles.arrow} ${open ? styles.open : ""}`}>
+            <use href="/svg/sprite.svg#icon-Vector"></use>
+          </svg>
         </button>
 
         {open && (

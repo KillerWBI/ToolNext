@@ -8,7 +8,9 @@ import FilterBar from "@/components/tools/FilterBar/FilterBar";
 import ToolsGrid from "@/components/tools/ToolsGrid/ToolsGrid";
 
 export default async function ToolsPage({ searchParams }: any) {
-  const category = searchParams?.category || undefined;
+  const params = await searchParams;
+
+  const category = params?.category || undefined;
 
   const data = await getTools({
     category,
