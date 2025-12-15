@@ -6,9 +6,5 @@ export const metadata = {
 };
 
 export default function HomePage() {
-    return (
-        <main>
-            <FeaturedToolsBlock />
-        </main>
-    );
+    return <FeaturedToolsBlock />;
 }
