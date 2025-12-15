@@ -2,57 +2,66 @@
 
 import Link from "next/link";
 import styles from "./Header.module.css";
+import { useState } from "react";
+import MobileMenu from "../MobileMenu/MobileMenu";
 
-// тимчасово, потім заміниш на auth store / context
+// Временно
 const isAuth = false;
 const user = { name: "Сергій" };
 
 export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <header className={styles.header}>
-      {/* ЛОГО */}
-      <Link
-        href="/"
-        className={styles.logo}
-      >
-        LOGO
-      </Link>
+      <div className="container">
+        <div className={styles.headerNavigation}>
+          <div className={styles.logoWrapper}>
+            <Link href="/">
+              <img
+                src="/svg/logo.svg"
+                alt="LOGO"
+                className={styles.logo}
+                height={20}
+              />
+            </Link>
+          </div>
 
-      {/* НАВІГАЦІЯ (desktop) */}
-      <nav className={styles.nav}>
-        <Link href="/">Головна</Link>
-        <Link href="/tools">Інструменти</Link>
+          {/* Десктопная навигация */}
+          <nav className={styles.navHeader}>
+            <Link href="/">Головна</Link>
+            <Link href="/tools">Інструменти</Link>
+            {isAuth ? (
+              <>
+                <Link href="/profile">Мій профіль</Link>
+                <Link href="/create">Опублікувати оголошення</Link>
+              </>
+            ) : (
+              <>
+                <Link href="/auth/login">Увійти</Link>
+                <Link href="/auth/register">Зареєструватися</Link>
+              </>
+            )}
+          </nav>
 
-        {isAuth && (
-          <>
-            <Link href="/profile">Мій профіль</Link>
-            <Link href="/create">Опублікувати</Link>
-          </>
-        )}
-      </nav>
-
-      {/* AUTH BLOCK */}
-      {!isAuth ? (
-        <div className={styles.auth}>
-          <Link href="/auth/login">Увійти</Link>
-          <Link
-            href="/auth/register"
-            className={styles.primary}
+          {/* Бургер-кнопка */}
+          <button
+            className={styles.burger}
+            onClick={() => setIsOpen((prev) => !prev)}
           >
-            Зареєструватися
-          </Link>
-        </div>
-      ) : (
-        <div className={styles.user}>
-          <div className={styles.avatar}>{user.name[0]}</div>
-          <span>{user.name}</span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
 
-          <button className={styles.logout}>Вихід</button>
+          {/* Мобильное меню */}
+          <MobileMenu
+            isOpen={isOpen}
+            isAuth={isAuth}
+            onClose={() => setIsOpen(false)}
+          />
         </div>
-      )}
-
-      {/* BURGER MENU (tablet / mobile) */}
-      <button className={styles.burger}>☰</button>
+      </div>
     </header>
   );
 }
