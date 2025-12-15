@@ -1,6 +1,6 @@
 // app/layout.tsx
-import Footer from "@/components/layout/Footer/Footer";
-import Header from "@/components/layout/Header/Header";
+import Footer from "@/components/Footer/Footer";
+import Header from "@/components/Header/Header";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import ProtectedRoute from "../components/shared/ProtectedRoute";
