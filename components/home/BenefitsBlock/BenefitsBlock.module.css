@@ -1,8 +1,36 @@
-
 .benefitsBlock{
     padding-top:112px;
     padding-bottom: 112px;
 }
+.benefitsDesc{
+    display: flex;
+    gap: 80px;
+    margin-bottom: 80px;
+}
+.benefitsSvg{
+    margin-bottom: 24px;
+}
 .benefitsTitle{
     font-size: 40px;
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: 24px;
+    width: 616px;
+}
+.benefitsText{
+    font-size: 18px;
+    width: 616px;
+    margin: 0;;
+}
+.benefitsLst{
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    padding:0;
+}
+.benefitsListItem{
+    width: 416px;
+}
+.benefitsListText{
+    font-size: 16px;
 }
