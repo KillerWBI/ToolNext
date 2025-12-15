@@ -38,8 +38,8 @@ export default function Header() {
               </>
             ) : (
               <>
-                <Link href="/auth/login">Увійти</Link>
-                <Link href="/auth/register">Зареєструватися</Link>
+                <Link href="/login">Увійти</Link>
+                <Link href="/register">Зареєструватися</Link>
               </>
             )}
           </nav>
