@@ -7,13 +7,37 @@ export default function Footer() {
       <div className="container">
         <div className={styles.footerNavigation}>
           <div className={styles.logowrapper}>
-            <img src="svg/logo.svg" alt="ToolNext" className={styles.logo} />
+            <img
+              src="svg/logo.svg"
+              alt="ToolNext"
+              className={styles.logo}
+            />
           </div>
           <nav className={styles.nav}>
-            <a href="/">Головна</a>
-            <a href="/tools">Інструменти</a>
-            <a href="/login">Увійти</a>
-            <a href="/register">Зареєструватися</a>
+            <Link
+              href="/"
+              className={styles.footerLink}
+            >
+              Головна
+            </Link>
+            <Link
+              href="/tools"
+              className={styles.footerLink}
+            >
+              Інструменти
+            </Link>
+            <Link
+              href="/login"
+              className={styles.footerLink}
+            >
+              Увійти
+            </Link>
+            <Link
+              href="/register"
+              className={styles.footerLink}
+            >
+              Зареєструватися
+            </Link>
           </nav>
           <div className={styles.socialLink}>
             <img
