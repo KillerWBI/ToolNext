@@ -6,6 +6,7 @@ import { ToolsResponse } from "@/lib/api/tools";
 import { Tool } from "@/types/tool";
 import styles from "./ToolsGrid.module.css";
 import Loader from "@/components/ui/Loader/Loader";
+import FilterBar from "../FilterBar/FilterBar";
 
 
 interface ApiResponse extends ToolsResponse {
@@ -150,3 +151,4 @@ export default function ToolsListBlock() {
         </section>
     );
 }
+

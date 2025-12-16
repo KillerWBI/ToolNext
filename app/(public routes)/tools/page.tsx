@@ -6,10 +6,10 @@ export const metadata = {
 };
 
 export default function Page() {
-    return (
-        <main>
-            <ToolsGrid />
-        </main>
-    );
+  return (
+    <main>
+      <ToolsGrid />
+    </main>
+  );
 }
 
