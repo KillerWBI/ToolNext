@@ -14,10 +14,10 @@ export default function Footer() {
             />
           </div>
           <nav className={styles.nav}>
-            <a href="/">Головна</a>
-            <a href="/tools">Інструменти</a>
-            <a href="/auth/login">Увійти</a>
-            <a href="/auth/register">Зареєструватися</a>
+            <Link href="/">Головна</Link>
+            <Link href="/tools">Інструменти</Link>
+            <Link href="/auth/login">Увійти</Link>
+            <Link href="/auth/register">Зареєструватися</Link>
           </nav>
           <div className={styles.socialLink}>
             <img
