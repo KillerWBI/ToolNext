@@ -8,13 +8,16 @@ export default function Footer() {
         <div className={styles.footerNavigation}>
           <div className={styles.logowrapper}>
             <Link href="/">
-              <img
-                src="/svg/company-logo.svg"
-                alt="Company logo"
-                className={styles.companyFooter}
-                width={238}
-                height={39}
-              />
+              <Link href="/">
+                <svg
+                  className={styles.companyFooter}
+                  width={238}
+                  height={39}
+                  aria-label="Company logo"
+                >
+                  <use href="/svg/sprite.svg#icon-custom-logo" />
+                </svg>
+              </Link>
             </Link>
           </div>
           <nav className={styles.nav}>

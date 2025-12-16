@@ -8,9 +8,8 @@ import styles from "./Header.module.css";
 
 // Временно
 
-
 export default function Header() {
-const {user, isAuthenticated} = useAuthStore();
+  const { user, isAuthenticated } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -19,13 +18,13 @@ const {user, isAuthenticated} = useAuthStore();
         <div className={styles.headerNavigation}>
           <div className={styles.logoWrapper}>
             <Link href="/">
-              <img
-                src="/svg/company-logo.svg"
-                alt="Company logo"
-                className={styles.companyHeder}
-                width={124}
-                height={20}
-              />
+              <svg
+                width={162}
+                height={26}
+                aria-label="Company logo"
+              >
+                <use href="/svg/sprite.svg#icon-custom-logo" />
+              </svg>
             </Link>
           </div>
 
@@ -50,10 +49,10 @@ const {user, isAuthenticated} = useAuthStore();
           <button
             className={styles.burger}
             onClick={() => setIsOpen((prev) => !prev)}
-            aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
+            aria-label="Відкрити меню"
           >
             <svg className={styles.icon}>
-              <use href={`/svg/sprite.svg#${isOpen ? "close" : "menu"}`} />
+              <use href="/svg/sprite.svg#menu" />
             </svg>
           </button>
           {/* Мобильное меню */}

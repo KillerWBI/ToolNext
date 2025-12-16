@@ -19,6 +19,29 @@ export default function MobileMenu({
   return (
     <div className={styles.mobileMenu}>
       <div className="container">
+        <div className={styles.headerNavigation}>
+          <div className={styles.logoWrapper}>
+            <Link href="/">
+              <svg
+                width={162}
+                height={26}
+                aria-label="Company logo"
+              >
+                <use href="/svg/sprite.svg#icon-custom-logo" />
+              </svg>
+            </Link>
+          </div>
+          <button
+            className={styles.burger}
+            onClick={onClose}
+            aria-label="Закрити меню"
+          >
+            <svg className={styles.icon}>
+              <use href="/svg/sprite.svg#close" />
+            </svg>
+          </button>
+        </div>
+
         {/* Навигация мобильного меню */}
         <nav className={styles.navMobile}>
           <Link
@@ -51,14 +74,15 @@ export default function MobileMenu({
           ) : (
             <>
               <Link
-                href="/login"
+                href="/auth/login"
                 onClick={onClose}
               >
                 Увійти
               </Link>
               <Link
-                href="/register"
+                href="/auth/register"
                 onClick={onClose}
+                className={styles.registerButton}
               >
                 Зареєструватися
               </Link>
