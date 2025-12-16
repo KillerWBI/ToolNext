@@ -27,13 +27,13 @@ export default function Footer() {
               Інструменти
             </Link>
             <Link
-              href="/login"
+              href="/auth/login"
               className={styles.footerLink}
             >
               Увійти
             </Link>
             <Link
-              href="/register"
+              href="/auth/register"
               className={styles.footerLink}
             >
               Зареєструватися
