@@ -32,7 +32,10 @@ export default function Footer() {
             >
               Увійти
             </Link>
-            <Link href="/register className={styles.footerLink}">
+            <Link
+              href="/register"
+              className={styles.footerLink}
+            >
               Зареєструватися
             </Link>
           </nav>
