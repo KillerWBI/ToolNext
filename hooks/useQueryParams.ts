@@ -45,3 +45,11 @@ export function useQueryParams(defaults: QueryDefaults = {}) {
     getAll,
   };
 }
+
+//Use:
+//const { get, set } = useQueryParams({ page: 1 });
+
+//const page = get('page'); // '1'
+
+//set('page', 2);     // ?page=2
+//set('page', null);  // удалит параметр
