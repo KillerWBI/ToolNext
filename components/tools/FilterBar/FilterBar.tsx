@@ -1,33 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from "./FilterBar.module.css";
-import { getCategories, type Category } from "@/lib/api/categories";
+import { getCategories } from "@/lib/api/categories";
+import type { Category } from "@/types/category";
 
 const ALL_CATEGORIES_VALUE = "all";
 
 const FilterBar = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // що зараз у URL
   const currentCategory = searchParams.get("category") ?? ALL_CATEGORIES_VALUE;
 
-  // 1) тягнемо список категорій з бекенду
+  // === ОНОВЛЕНО ПІД ОБ’ЄКТ ===
   useEffect(() => {
     const loadCategories = async () => {
       try {
         setIsLoading(true);
-        const data = await getCategories();
-        setCategories(data);
+
+        const list = await getCategories();
+
+        console.log("Loaded categories:", list);
+
+        setCategories(list);
       } catch (error) {
         console.error("Failed to load categories", error);
-        // тут можна додати toast, коли підключите
       } finally {
         setIsLoading(false);
       }
@@ -35,12 +40,22 @@ const FilterBar = () => {
 
     loadCategories();
   }, []);
+  // ===========================
 
-  // 2) зміна категорії
-  const handleCategoryChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const value = event.target.value;
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const changeCategory = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
     if (value === ALL_CATEGORIES_VALUE) {
@@ -49,10 +64,10 @@ const FilterBar = () => {
       params.set("category", value);
     }
 
+    setOpen(false);
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  // 3) скидання фільтрів
   const handleResetFilters = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete("category");
@@ -61,23 +76,51 @@ const FilterBar = () => {
 
   const isResetDisabled = currentCategory === ALL_CATEGORIES_VALUE;
 
+  const currentLabel =
+    currentCategory === "all"
+      ? "Всі категорії"
+      : categories.find((c) => c._id === currentCategory)?.title ||
+        "Всі категорії";
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.selectWrapper}>
-        <select
-          className={styles.select}
-          value={currentCategory}
-          onChange={handleCategoryChange}
+      <div ref={dropdownRef} className={styles.selectWrapper}>
+        <button
+          type="button"
+          className={styles.selectButton}
           disabled={isLoading}
+          onClick={() => setOpen((prev) => !prev)}
         >
-          <option value={ALL_CATEGORIES_VALUE}>Всі категорії</option>
+          {currentLabel}
+          <svg className={`${styles.arrow} ${open ? styles.open : ""}`}>
+            <use href="/svg/sprite.svg#icon-Vector"></use>
+          </svg>
+        </button>
 
-          {categories.map((category) => (
-            <option key={category._id} value={category._id}>
-              {category.title}
-            </option>
-          ))}
-        </select>
+        {open && (
+          <div className={styles.dropdown}>
+            <div
+              className={`${styles.option} ${
+                currentCategory === "all" ? styles.selectedOption : ""
+              }`}
+              onClick={() => changeCategory("all")}
+            >
+              Всі категорії
+            </div>
+
+            {categories.map((cat) => (
+              <div
+                key={cat._id}
+                className={`${styles.option} ${
+                  currentCategory === cat._id ? styles.selectedOption : ""
+                }`}
+                onClick={() => changeCategory(cat._id)}
+              >
+                {cat.title}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <button

@@ -16,8 +16,8 @@ export default function Footer() {
           <nav className={styles.nav}>
             <Link href="/">Головна</Link>
             <Link href="/tools">Інструменти</Link>
-            <Link href="/auth/login">Увійти</Link>
-            <Link href="/auth/register">Зареєструватися</Link>
+            <Link href="/login">Увійти</Link>
+            <Link href="/register">Зареєструватися</Link>
           </nav>
           <div className={styles.socialLink}>
             <img
