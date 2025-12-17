@@ -1,11 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import styles from "./Footer.module.css";
+import { useAuthStore } from "@/store/auth.store";
 
-interface FooterProps {
-  isAuthenticated: boolean;
-}
+export default function Footer() {
+  const { isAuthenticated } = useAuthStore();
 
-export default function Footer({ isAuthenticated }: FooterProps) {
   return (
     <footer className={styles.footer}>
       <div className="container">
@@ -29,7 +30,7 @@ export default function Footer({ isAuthenticated }: FooterProps) {
             {isAuthenticated ? (
               <>
                 <Link href="/profile">Мій профіль</Link>
-                <Link href="/create-ad">Опублікувати оголошення</Link>
+                <Link href="/create">Опублікувати оголошення</Link>
               </>
             ) : (
               <>
