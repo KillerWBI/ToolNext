@@ -38,6 +38,15 @@
   border-radius: 2px;
 }
 
+.separator {
+  display: inline-block;
+  width: 1px; /* толщина линии */
+  height: 24px; /* высота линии */
+  background-color: #ccc; /* цвет линии */
+  margin: 0 12px; /* отступы слева и справа */
+  align-self: center; /* выравнивание по центру блока */
+}
+
 @media only screen and (min-width: 1440px) {
   .burger {
     display: none;

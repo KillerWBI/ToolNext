@@ -9,6 +9,7 @@ import styles from "./Header.module.css";
 // Временно
 
 export default function Header() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { user, isAuthenticated } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -44,6 +45,34 @@ export default function Header() {
               </>
             )}
           </nav>
+          {isAuthenticated && user?.name && (
+            <div className={styles.userBlock}>
+              {/* Аватар с первой буквой имени */}
+              <div className={styles.userAvatar}>
+                {user.name.charAt(0).toUpperCase()}
+              </div>
+
+              {/* Имя пользователя */}
+              <span className={styles.userName}>{user.name}</span>
+              <span className={styles.separator}></span>
+
+              {/* Кнопка выхода */}
+              <button
+                className={styles.logoutBtn}
+                onClick={() => setIsModalOpen(true)} // открываем ConfirmationModal
+              >
+                <svg
+                  className={styles.logoutIcon}
+                  width={18}
+                  height={18}
+                  aria-hidden="true"
+                >
+                  <use href="/svg/sprite.svg#logout" />
+                </svg>
+                Вихід
+              </button>
+            </div>
+          )}
 
           {/* Бургер-кнопка */}
           <button
