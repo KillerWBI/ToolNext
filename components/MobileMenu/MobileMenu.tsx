@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import styles from "./MobileMenu.module.css";
 
@@ -17,28 +19,30 @@ export default function MobileMenu({
   return (
     <div className={styles.mobileMenu}>
       <div className="container">
-        <div className={styles.burgerHeader}>
-          <Link href="/">
-            <img
-              src="/svg/logo.svg"
-              alt="LOGO"
-              className={styles.logo}
-              height={20}
-            />
-          </Link>
-
-          {/* Крестик для закрытия */}
+        <div className={styles.headerNavigation}>
+          <div className={styles.logoWrapper}>
+            <Link href="/">
+              <svg
+                width={162}
+                height={26}
+                aria-label="Company logo"
+              >
+                <use href="/svg/sprite.svg#icon-custom-logo" />
+              </svg>
+            </Link>
+          </div>
           <button
-            className={`${styles.closeButton} ${isOpen ? styles.open : ""}`}
+            className={styles.burger}
             onClick={onClose}
+            aria-label="Закрити меню"
           >
-            <span></span>
-            <span></span>
-            <span></span>
+            <svg className={styles.icon}>
+              <use href="/svg/sprite.svg#close" />
+            </svg>
           </button>
         </div>
 
-        {/* Ссылки */}
+        {/* Навигация мобильного меню */}
         <nav className={styles.navMobile}>
           <Link
             href="/"
@@ -70,14 +74,15 @@ export default function MobileMenu({
           ) : (
             <>
               <Link
-                href="/login"
+                href="/auth/login"
                 onClick={onClose}
               >
                 Увійти
               </Link>
               <Link
-                href="/register"
+                href="/auth/register"
                 onClick={onClose}
+                className={styles.registerButton}
               >
                 Зареєструватися
               </Link>

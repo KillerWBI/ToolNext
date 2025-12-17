@@ -7,49 +7,40 @@ export default function Footer() {
       <div className="container">
         <div className={styles.footerNavigation}>
           <div className={styles.logowrapper}>
-            <img
-              src="svg/logo.svg"
-              alt="ToolNext"
-              className={styles.logo}
-            />
+            <Link href="/">
+              <Link href="/">
+                <svg
+                  className={styles.companyFooter}
+                  width={238}
+                  height={39}
+                  aria-label="Company logo"
+                >
+                  <use href="/svg/sprite.svg#icon-custom-logo" />
+                </svg>
+              </Link>
+            </Link>
           </div>
           <nav className={styles.nav}>
-            <Link
-              href="/"
-              className={styles.footerLink}
-            >
-              Головна
-            </Link>
-            <Link
-              href="/tools"
-              className={styles.footerLink}
-            >
-              Інструменти
-            </Link>
-            <Link
-              href="/auth/login"
-              className={styles.footerLink}
-            >
-              Увійти
-            </Link>
-            <Link
-              href="/auth/register"
-              className={styles.footerLink}
-            >
-              Зареєструватися
-            </Link>
+            <Link href="/">Головна</Link>
+            <Link href="/tools">Інструменти</Link>
+            <Link href="/auth/login">Увійти</Link>
+            <Link href="/auth/register">Зареєструватися</Link>
           </nav>
           <div className={styles.socialLink}>
-            <img
-              src="svg/Vector-1.svg"
-              alt="ToolNext"
+            <svg
               className={styles.logo}
-            />
-            <img
-              src="svg/Vector-2.svg"
-              alt="ToolNext"
+              height={20}
+              width={20}
+            >
+              <use href="/svg/sprite.svg#facebook" />
+            </svg>
+            <svg
               className={styles.logo}
-            />
+              height={20}
+              width={20}
+            >
+              <use href="/svg/sprite.svg#instagram" />
+            </svg>
           </div>
         </div>
         <div className={styles.line}></div>
