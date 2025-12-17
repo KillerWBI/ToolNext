@@ -1,12 +1,20 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from "react";
 import ToolCard from "@/components/tools/ToolCard/ToolCard";
-import { ToolsResponse } from "@/lib/api/tools";
-import { Tool } from "@/types/tool";
-import styles from "./ToolsGrid.module.css";
 import Loader from "@/components/ui/Loader/Loader";
 import FilterBar from "../FilterBar/FilterBar";
+import styles from "./ToolsGrid.module.css";
+import { Tool } from "@/types/tool";
+import { useQueryParams } from "@/hooks/useQueryParams";
+
+interface ApiResponse {
+  tools: Tool[];
+  totalTools: number;
+  totalPages: number;
+  page: number;
+  limit: number;
+}
 
 interface ApiResponse extends ToolsResponse {
   totalTools: number;
