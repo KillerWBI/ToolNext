@@ -3,6 +3,8 @@
 import { api } from "@/lib/api/api";
 import { refreshToken } from "@/lib/auth";
 import { create } from "zustand";
+import axios from "axios";
+
 interface User {
   id: string;
   email: string;
@@ -16,7 +18,7 @@ interface AuthState {
 
   setUser: (user: User | null) => void;
   fetchUser: () => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
@@ -35,60 +37,35 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   fetchUser: async () => {
     set({ loading: true });
-     fetchUser: async () => {
-    set({ loading: true });
 
     try {
-      const res = await axios.get<User>(`/api/auth/me`, {
-        withCredentials: true,
-      });
-    try {
-      // 1️ пробуем получить пользователя
+      // пробуем получить пользователя
       const res = await api.get<User>("/api/auth/me");
-
       set({
         user: res.data,
         isAuthenticated: true,
         loading: false,
       });
-    } catch (error: any) {
-      // 2️ access token умер → пробуем refresh
-      if (error.response?.status === 401) {
+    } catch (error: unknown) {
+      // если access token умер → пробуем refresh
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
         const refreshed = await refreshToken();
-
         if (refreshed) {
           try {
-            // 3️ повторяем запрос
-        const res = await api.get<User>("/api/auth/me");
-
-      set({
-        user: res.data,
-        isAuthenticated: true,
-        loading: false,
-      });
-    } catch (error) {
-      console.warn(error + "Auth: user not authenticated");
-
-      set({
-        user: null,
-        isAuthenticated: false,
-        loading: false,
-      });
-    }
-  },
+            const res = await api.get<User>("/api/auth/me");
             set({
               user: res.data,
               isAuthenticated: true,
               loading: false,
             });
             return;
-          } catch(error) {
-            console.error(error);
+          } catch (err) {
+            console.error("Auth fetch after refresh failed:", err);
           }
         }
       }
 
-      // 4️refresh не помог → logout
+      console.warn("User not authenticated", error);
       set({
         user: null,
         isAuthenticated: false,
@@ -99,33 +76,21 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   logout: async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
-    } catch {
-      // даже если сервер упал — чистим локально
-    }
-    logout: async () => {
-        try {
-            await await api.post("/api/auth/logout");
-
-        } catch {
-            // даже если сервер упал — чистим локально
-        }
-
-    set({
-      user: null,
-      isAuthenticated: false,
-    });
-
-    if (typeof window !== "undefined") {
-      document.cookie =
-        "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
+      await api.post("/api/auth/logout", {}, { withCredentials: true });
+    } catch (error) {
+      console.warn("Logout failed on server, cleaning locally", error);
+    } finally {
+      set({
+        user: null,
+        isAuthenticated: false,
+      });
+      if (typeof window !== "undefined") {
+        document.cookie =
+          "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
+      }
     }
   },
 }));
 
-// Backwards-compatible alias: some files import `useAuth`
+// Backwards-compatible alias
 export const useAuth = useAuthStore;

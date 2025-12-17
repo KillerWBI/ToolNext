@@ -9,9 +9,13 @@ import styles from "./Header.module.css";
 // Временно
 
 export default function Header() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user, isAuthenticated } = useAuthStore();
+  const { user, isAuthenticated, loading } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  if (loading) return null;
+
+  console.log("Header state:", { user, isAuthenticated, loading });
 
   return (
     <header className={styles.header}>
