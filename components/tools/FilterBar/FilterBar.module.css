@@ -16,26 +16,27 @@
 /* --- ЗАКРИТА КНОПКА (SelectButton) --- */
 .selectButton {
   width: 304px;
-
   min-height: 40px;
   padding: 8px 12px;
-
   display: flex;
   align-items: center;
   gap: 16px;
-
-  border: 2px solid black; /* тимчасово */
+  border: 2px solid var(--color-neutral-darkest);
   border-radius: 6px;
-
   background: var(--opacity-transparent);
-
   font-family: var(--font-family);
   font-weight: 400;
   font-size: 16px;
-  line-height: 20px; /* контролюємо висоту */
+  line-height: 20px;
   color: var(--color-neutral-darkest);
 
   cursor: pointer;
+}
+
+.selectButton.open {
+  background: var(--color-electric-violet-lightest);
+  border: 2px solid var(--color-electric-violet-light);
+  border-radius: 6px 6px 0 0;
 }
 
 /* --- СТРІЛКА SVG --- */
@@ -54,47 +55,49 @@
 /* --- ВІДКРИТЕ МЕНЮ --- */
 .dropdown {
   position: absolute;
-  top: 44px;
+  top: calc(100% - 2px);
   width: 304px;
-  height: 305px;
-
+  height: 416px;
   border: 2px solid var(--color-electric-violet-light);
   border-radius: 6px;
-
   background: var(--color-electric-violet-lightest);
-
   padding: 6px 0;
   overflow-y: auto;
-
   z-index: 20;
 
-  /* Firefox Scrollbar */
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-electric-violet-light)
-    var(--color-electric-violet-dark);
+  padding-right: 14px;
 }
 
-/* --- Chrome Scrollbar --- */
 .dropdown::-webkit-scrollbar {
   width: 7px;
 }
 
 .dropdown::-webkit-scrollbar-track {
-  background: var(--color-electric-violet-dark);
+  background: var(--color-electric-violet-light);
   border-radius: 4px;
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  background-clip: content-box;
 }
 
 .dropdown::-webkit-scrollbar-thumb {
-  background: var(--color-electric-violet-light);
   border-radius: 4px;
+  width: 7px;
+  height: 56px;
+  background: var(--color-electric-violet-dark);
 }
 
 /* --- ПУНКТИ МЕНЮ --- */
 .option {
-  padding: 10px 14px;
-  margin-bottom: 8px;
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 28px 8px 12px;
+
+  display: flex;
+  align-items: center;
 
   font-family: var(--font-family);
+  font-weight: 400;
   font-size: 16px;
   line-height: 150%;
 
@@ -102,12 +105,8 @@
   cursor: pointer;
 }
 
-.option:last-child {
-  margin-bottom: 0;
-}
-
 .option:hover {
-  background: rgba(106, 90, 205, 0.15);
+  background: var(--color-electric-violet-lighter);
 }
 
 /* Кнопка скидання */
