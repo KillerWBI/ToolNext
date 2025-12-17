@@ -54,9 +54,40 @@ export const useAuthStore = create<AuthState>((set) => ({
           try {
             const res = await api.get<User>("/api/auth/me");
             set({
-              user: res.data,
-              isAuthenticated: true,
-              loading: false,
+                user: userData,
+                isAuthenticated: true,
+                loading: false,
+            });
+        } catch (error: any) {
+            // 2️ access token умер → пробуем refresh
+            if (error.response?.status === 401) {
+                const refreshed = await refreshToken();
+
+                if (refreshed) {
+                    try {
+                        // 3️ повторяем запрос
+                        const res = await api.get<any>("/api/auth/me");
+
+                        // Бэкенд возвращает {success: true, data: {...}}
+                        const userData = res.data?.data || res.data;
+
+                        set({
+                            user: userData,
+                            isAuthenticated: true,
+                            loading: false,
+                        });
+                        return;
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }
+            }
+
+            // 4️refresh не помог → logout
+            set({
+                user: null,
+                isAuthenticated: false,
+                loading: false,
             });
             return;
           } catch (err) {
