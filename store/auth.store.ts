@@ -2,8 +2,8 @@
 
 import { api } from "@/lib/api/api";
 import { refreshToken } from "@/lib/auth";
-import { create } from "zustand";
 import axios from "axios";
+import { create } from "zustand";
 
 interface User {
     id: string;
@@ -49,7 +49,7 @@ export const useAuthStore = create<AuthState>((set) => ({
             const userData = res.data?.data || (res.data as User);
 
             set({
-                user: userData,
+                user: res.data,
                 isAuthenticated: true,
                 loading: false,
             });
@@ -84,6 +84,8 @@ export const useAuthStore = create<AuthState>((set) => ({
                 isAuthenticated: false,
                 loading: false,
             });
+            return;
+          }
         }
     },
 
