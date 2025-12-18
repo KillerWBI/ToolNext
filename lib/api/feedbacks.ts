@@ -6,7 +6,7 @@ export async function getFeedbacks(): Promise<Feedback[]> {
   });
 
   if (!res.ok) {
-    throw new Error('Failed to fetch feedbacks');
+    throw new Error('Не вдалося отримати відгуки');
   }
 
   return res.json();
