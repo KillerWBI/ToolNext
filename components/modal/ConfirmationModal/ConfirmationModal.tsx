@@ -1,11 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./ConfirmationModal.module.css";
 
 export type ConfirmationModalProps = {
-  open: boolean;
   title: string;
   confirmButtonText: string;
   cancelButtonText: string;
@@ -14,10 +14,10 @@ export type ConfirmationModalProps = {
   error?: string;
   onConfirm: () => Promise<void>;
   onCancel: () => void;
+  open: boolean;
 };
 
 export default function ConfirmationModal({
-  open,
   title,
   confirmButtonText,
   cancelButtonText,
@@ -26,18 +26,19 @@ export default function ConfirmationModal({
   error,
   onConfirm,
   onCancel,
+  open,
 }: ConfirmationModalProps) {
+  const router = useRouter();
   const [localLoading, setLocalLoading] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onCancel();
-    };
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [onCancel]);
+    setIsClient(true); // Теперь рендерим только на клиенте
+  }, []);
 
-  if (!open) return null;
+  const handleCancel = () => {
+    onCancel();
+  };
 
   const handleConfirm = async () => {
     if (isLoading || localLoading) return;
@@ -49,26 +50,30 @@ export default function ConfirmationModal({
     }
   };
 
+  if (!open || !isClient) return null; // Не рендерим на сервере и если модалка закрыта
+
   return createPortal(
-    <div className={styles.backdrop} onClick={onCancel}>
+    <div className={styles.backdrop} onClick={handleCancel}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.close} onClick={onCancel}>
+        <button className={styles.close} onClick={handleCancel}>
           <svg className={styles.closeIcon}>
             <use href="/svg/sprite.svg#close" />
           </svg>
         </button>
 
         <h2 className={styles.title}>{title}</h2>
+
         {error && <p className={styles.error}>{error}</p>}
 
         <div className={styles.actions}>
           <button
-            onClick={onCancel}
+            onClick={handleCancel}
             disabled={isLoading || localLoading}
             className={styles.cancel}
           >
             {cancelButtonText}
           </button>
+
           <button
             onClick={handleConfirm}
             disabled={isLoading || localLoading}
