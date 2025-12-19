@@ -36,7 +36,10 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     try {
       const res = await api.get<AuthResponse>("/api/auth/me");
-      const user = res.data.data ?? (res.data as unknown as User);
+      const rawUser = res.data.data ?? (res.data as unknown as User);
+      const user = rawUser
+        ? { ...rawUser, id: rawUser.id ?? (rawUser as any)._id }
+        : null;
 
       set({
         user,
@@ -50,7 +53,10 @@ export const useAuthStore = create<AuthState>((set) => ({
         if (refreshed) {
           try {
             const res = await api.get<AuthResponse>("/api/auth/me");
-            const user = res.data.data ?? (res.data as unknown as User);
+            const rawUser = res.data.data ?? (res.data as unknown as User);
+            const user = rawUser
+              ? { ...rawUser, id: rawUser.id ?? (rawUser as any)._id }
+              : null;
 
             set({
               user,
