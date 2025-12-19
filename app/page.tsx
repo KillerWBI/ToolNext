@@ -1,3 +1,4 @@
+import HeroBlock from "@/components/home/HeroBlock/HeroBlock";
 import BenefitsBlock from "@/components/home/BenefitsBlock/BenefitsBlock";
 import FeaturedToolsBlock from "@/components/home/FeaturedToolsBlock/FeaturedToolsBlock";
 import RegistrationBlock from "@/components/home/RegistrationBlock/RegistrationBlock";
@@ -15,6 +16,7 @@ export const metadata = {
 export default function HomePage() {
     return (
         <main>
+            <HeroBlock />
             <BenefitsBlock />
             <FeaturedToolsBlock />
             <FeedbacksBlock feedbacks={feedbacks} />
