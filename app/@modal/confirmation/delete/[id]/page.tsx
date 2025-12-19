@@ -3,22 +3,28 @@
 import ConfirmationModal from "@/components/modal/ConfirmationModal/ConfirmationModal";
 import { confirmConfig } from "@/lib/confirmConfig";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 
 export default function DeleteModal() {
   const { id } = useParams();
   const config = confirmConfig.delete;
-const uiVariant =
-  config.variant === "delete" ? "danger" : "default";
+  const [open, setOpen] = useState(true);
+
+  const uiVariant: "danger" | "default" =
+    config.variant === "delete" ? "danger" : "default";
 
   return (
     <ConfirmationModal
-  title={config.title}
-  confirmButtonText={config.confirmText}
-  cancelButtonText={config.cancelText}
-  variant={config.variant === "delete" ? "danger" : "default"}
-  onConfirm={async () => {
-    await config.onConfirm(id as string);
-  }}
-/>
+      open={open}
+      title={config.title}
+      confirmButtonText={config.confirmText}
+      cancelButtonText={config.cancelText}
+      variant={uiVariant}
+      onConfirm={async () => {
+        await config.onConfirm(id as string);
+        setOpen(false);
+      }}
+      onCancel={() => setOpen(false)}
+    />
   );
 }
