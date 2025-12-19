@@ -9,6 +9,7 @@ interface User {
   id: string;
   email: string;
   name?: string;
+  avatarUrl?: string;
 }
 
 interface AuthResponse {
@@ -57,7 +58,7 @@ export const useAuthStore = create<AuthState>((set) => ({
               loading: false,
             });
             return;
-          } catch(err) {
+          } catch (err) {
             console.error(err);
           }
         }
