@@ -2,21 +2,27 @@
 
 import ConfirmationModal from "@/components/modal/ConfirmationModal/ConfirmationModal";
 import { confirmConfig } from "@/lib/confirmConfig";
+import { useState } from "react";
 
 export default function LogoutModal() {
   const config = confirmConfig.logout;
-const uiVariant =
-  config.variant === "delete" ? "danger" : "default";
+  const [open, setOpen] = useState(true);
+
+  const uiVariant: "danger" | "default" =
+    config.variant === "delete" ? "danger" : "default";
 
   return (
     <ConfirmationModal
-  title={config.title}
-  confirmButtonText={config.confirmText}
-  cancelButtonText={config.cancelText}
-  variant="default"
-  onConfirm={async () => {
-    await config.onConfirm();
-  }}
-/>
+      open={open}
+      title={config.title}
+      confirmButtonText={config.confirmText}
+      cancelButtonText={config.cancelText}
+      variant={uiVariant}
+      onConfirm={async () => {
+        await config.onConfirm();
+        setOpen(false);
+      }}
+      onCancel={() => setOpen(false)}
+    />
   );
 }

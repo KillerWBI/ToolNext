@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./ConfirmationModal.module.css";
 
 export type ConfirmationModalProps = {
+  open: boolean;
   title: string;
   confirmButtonText: string;
   cancelButtonText: string;
@@ -13,9 +13,11 @@ export type ConfirmationModalProps = {
   isLoading?: boolean;
   error?: string;
   onConfirm: () => Promise<void>;
+  onCancel: () => void;
 };
 
 export default function ConfirmationModal({
+  open,
   title,
   confirmButtonText,
   cancelButtonText,
@@ -23,35 +25,34 @@ export default function ConfirmationModal({
   isLoading = false,
   error,
   onConfirm,
+  onCancel,
 }: ConfirmationModalProps) {
-  const router = useRouter();
   const [localLoading, setLocalLoading] = useState(false);
-
-  const handleCancel = () => router.back();
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleCancel();
+      if (e.key === "Escape") onCancel();
     };
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, []);
+  }, [onCancel]);
+
+  if (!open) return null;
 
   const handleConfirm = async () => {
     if (isLoading || localLoading) return;
     setLocalLoading(true);
     try {
       await onConfirm();
-      router.back();
     } finally {
       setLocalLoading(false);
     }
   };
 
   return createPortal(
-    <div className={styles.backdrop} onClick={handleCancel}>
+    <div className={styles.backdrop} onClick={onCancel}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.close} onClick={handleCancel}>
+        <button className={styles.close} onClick={onCancel}>
           <svg className={styles.closeIcon}>
             <use href="/svg/sprite.svg#close" />
           </svg>
@@ -63,7 +64,7 @@ export default function ConfirmationModal({
 
         <div className={styles.actions}>
           <button
-            onClick={handleCancel}
+            onClick={onCancel}
             disabled={isLoading || localLoading}
             className={styles.cancel}
           >
