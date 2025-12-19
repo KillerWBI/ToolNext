@@ -46,7 +46,7 @@ export default function Header() {
               {isAuthenticated ? (
                 <>
                   <Link href="/profile">Мій профіль</Link>
-                  <Link href="/create">Опублікувати оголошення</Link>
+                  <Link href="dashboard/create">Опублікувати оголошення</Link>
                 </>
               ) : (
                 <>

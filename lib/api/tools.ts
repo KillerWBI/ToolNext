@@ -54,13 +54,13 @@ export const getTools = async (
  * Отримання одного інструменту за ID (Public)
  */
 export const getToolById = async (toolId: string): Promise<Tool> => {
-    const res = await fetch(`${API_URL}/tools/${toolId}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        cache: "no-store",
-    });
+  const res = await fetch(`${API_URL}/api/tools/${toolId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    cache: "no-store",
+  });
 
     if (!res.ok) {
         if (res.status === 404) {
@@ -78,7 +78,8 @@ export const getToolById = async (toolId: string): Promise<Tool> => {
  * Використовує FormData для передачі файлів та полів
  */
 export const createTool = async (formData: FormData): Promise<Tool> => {
-    const res = await fetch(`${API_URL}/tools`, {
+    // Use same-origin proxy route to avoid CORS issues with credentials
+    const res = await fetch(`/api/tools`, {
         method: "POST",
         body: formData,
         // credentials: 'include' потрібен, щоб передати куки (accessToken) на бекенд
@@ -100,7 +101,8 @@ export const updateTool = async (
     toolId: string,
     formData: FormData
 ): Promise<Tool> => {
-    const res = await fetch(`${API_URL}/tools/${toolId}`, {
+    // Use same-origin proxy route to avoid CORS issues with credentials
+    const res = await fetch(`/api/tools/${toolId}`, {
         method: "PATCH",
         body: formData,
         credentials: "include",
