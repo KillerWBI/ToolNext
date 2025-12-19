@@ -8,21 +8,31 @@
     font-weight: 700;
     margin-bottom: 80px;
 }
+
+.section :global(.swiper-slide) {
+    height: auto;
+    display: flex;
+}
+
 .card {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    height: 100%;
+    gap: 32px;
 }
 
 .text {
     font-size: 18px;
     font-weight: 400;
     line-height: 1.5;
+    margin: 0; /* прибрати, коли змінять загальні стилі */
 }
 
 .name {
     font-size: 14px;
     font-weight: 600;
+    margin-top: auto;
 }
 
 /* Контроль пагінації */
@@ -138,11 +148,12 @@
 
 /* ========== TABLET ========== */
 @media (min-width: 768px) {
-    .card {
-        gap: 32px;
-    }
 }
 
 /* ========== DESKTOP ========== */
 @media (min-width: 1024px) {
+.section {
+    padding-top: 112px;
+    padding-bottom: 112px;
+}
 }
