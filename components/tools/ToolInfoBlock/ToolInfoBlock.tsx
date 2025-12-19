@@ -21,9 +21,13 @@ export const ToolInfoBlock = async ({ tool, owner }: ToolInfoBlockProps) => {
         </div>
         <div className={css.userInfo}>
           <p className={css.userName}>{owner.name}</p>
-          <a href="" className={css.profileBtn} type="button">
+          <Link
+            href={`/profile/${owner._id ?? owner.id}`}
+            className={css.profileBtn}
+            type="button"
+          >
             Переглянути профіль
-          </a>
+          </Link>
         </div>
       </div>
       <p className={css.description}>{tool.description}</p>

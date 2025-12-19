@@ -6,34 +6,37 @@ export type PublicUser = {
   avatarUrl?: string;
 };
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 /**
  * Получить публичный профиль пользователя
  */
-export async function getPublicUserById(
-  userId: string
-): Promise<PublicUser> {
+export async function getPublicUserById(userId: string): Promise<PublicUser> {
   const res = await fetch(`${BASE_URL}/api/users/${userId}`, {
     cache: "no-store",
   });
 
   if (!res.ok) {
-    throw new Error(
-      `Failed to fetch user: ${res.status} ${res.statusText}`
-    );
+    throw new Error(`Failed to fetch user: ${res.status} ${res.statusText}`);
   }
 
-  return res.json();
+  const raw = await res.json();
+  // Нормалізуємо id/_id для надійного використання в посиланнях
+  const normalized = raw
+    ? {
+        ...raw,
+        _id: (raw as any)._id ?? (raw as any).id,
+        id: (raw as any).id ?? (raw as any)._id,
+      }
+    : raw;
+
+  return normalized;
 }
 
 /**
  * Получить инструменты пользователя
  */
-export async function getUserToolsByUserId(
-  userId: string
-): Promise<Tool[]> {
+export async function getUserToolsByUserId(userId: string): Promise<Tool[]> {
   const res = await fetch(`${BASE_URL}/api/users/${userId}/tools`, {
     cache: "no-store",
   });

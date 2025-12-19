@@ -52,6 +52,18 @@ export async function generateMetadata({
 export default async function ProfilePage({ params }: PageProps) {
   const { userId } = await params;
 
+  if (!userId || userId === "undefined") {
+    return (
+      <main className={styles.page}>
+        <div className="container">
+          <div className={styles.inner}>
+            <p>Користувача не знайдено або сталася помилка завантаження.</p>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   let user: PublicUser | null = null;
   let tools: Tool[] = [];
 
