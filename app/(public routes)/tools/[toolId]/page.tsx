@@ -13,10 +13,8 @@ export default async function DetailsPage({ params }: DetailsPageProps) {
   const { toolId } = await params;
 
   const tool = await getToolById(toolId);
-  console.log("tool", tool);
 
   const owner = await getPublicUserById(tool.owner);
-  console.log(owner);
 
   return (
     <div className="container">
