@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useState, useMemo, type MouseEvent } from "react";
 import { Tool } from "@/types/tool";
 import { useAuthStore } from "@/store/auth.store";
 import { useToolsStore } from "@/store/tools.store";
@@ -21,19 +21,14 @@ export default function ToolCard({ tool }: ToolCardProps) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
-  // Отримуємо статус авторизації та поточного користувача з Zustand стора
-  const { isAuthenticated, user } = useAuthStore();
-  // Отримуємо функцію для видалення інструмента зі стану
-  const removeTool = useToolsStore((state) => state.removeTool);
 
-  // Перевіряємо, чи є поточний користувач власником інструмента
+  const { isAuthenticated, user } = useAuthStore();
+  const removeTool = useToolsStore((state) => state.removeTool);
   const isOwner = isAuthenticated && user && user.id === tool.owner;
 
-  // Використовуємо хук для обробки зображень
   const { firstImage, extractImage } = useToolImages(tool);
   const [mainImage, setMainImage] = useState<string>(firstImage);
 
-  // Якщо зображення не прийшло з першої відповіді — пробуємо підтягнути деталі інструмента (тільки на клієнті)
   useEffect(() => {
     const hasImage = mainImage && !mainImage.includes("Placeholder Image");
     if (hasImage) return;
@@ -47,20 +42,16 @@ export default function ToolCard({ tool }: ToolCardProps) {
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (cancelled || !data) return;
-        const found = extractImage(
-          (data as any).images ?? (data as any).image ?? null
-        );
+        const found = extractImage((data as any).images ?? (data as any).image ?? null);
         if (found) setMainImage(found);
       })
       .catch(() => {})
-      .finally(() => {
-        // якщо нічого не знайшли — залишиться плейсхолдер
-      });
+      .finally(() => {});
 
     return () => {
       cancelled = true;
     };
-  }, [mainImage, tool._id]);
+  }, [mainImage, tool._id, extractImage]);
 
   const handleImageError = () => {
     setMainImage("/image/Placeholder Image.png");
@@ -74,13 +65,11 @@ export default function ToolCard({ tool }: ToolCardProps) {
 
   const handleConfirmDelete = async () => {
     if (isDeleting) return;
-
     setIsDeleting(true);
     setDeleteError(null);
 
     try {
       await deleteTool(tool._id);
-      // Мгновенно видаляємо інструмент зі стану
       removeTool(tool._id);
       setShowConfirm(false);
       router.refresh();
@@ -89,7 +78,6 @@ export default function ToolCard({ tool }: ToolCardProps) {
         error instanceof Error
           ? error.message
           : "Не вдалося видалити інструмент. Спробуйте ще раз.";
-
       setDeleteError(message);
     } finally {
       setIsDeleting(false);
@@ -98,19 +86,16 @@ export default function ToolCard({ tool }: ToolCardProps) {
 
   const handleCancelDelete = () => {
     if (isDeleting) return;
-
     setShowConfirm(false);
     setDeleteError(null);
   };
 
-  // Формуємо зірки рейтингу (з підтримкою половини)
   const renderStars = (rating: number) => {
     const safeRating = Math.max(0, Math.min(5, rating ?? 0));
-    const roundedHalf = Math.round(safeRating * 2) / 2; // крок 0.5
+    const roundedHalf = Math.round(safeRating * 2) / 2;
     const filledCount = Math.floor(roundedHalf);
     const hasHalf = roundedHalf - filledCount === 0.5;
     const emptyCount = 5 - filledCount - (hasHalf ? 1 : 0);
-
     const stars = [];
 
     for (let i = 0; i < filledCount; i++) {
@@ -120,7 +105,6 @@ export default function ToolCard({ tool }: ToolCardProps) {
         </svg>
       );
     }
-
     if (hasHalf) {
       stars.push(
         <svg key={`half`} className={styles.starIcon} aria-hidden="true">
@@ -128,7 +112,6 @@ export default function ToolCard({ tool }: ToolCardProps) {
         </svg>
       );
     }
-
     for (let i = 0; i < emptyCount; i++) {
       stars.push(
         <svg key={`empty-${i}`} className={styles.starIcon} aria-hidden="true">
@@ -136,7 +119,6 @@ export default function ToolCard({ tool }: ToolCardProps) {
         </svg>
       );
     }
-
     return <div className={styles.rating}>{stars}</div>;
   };
 
@@ -164,12 +146,8 @@ export default function ToolCard({ tool }: ToolCardProps) {
 
         <div className={styles.actions}>
           {isOwner ? (
-            // Власник інструмента
             <>
-              <Link
-                href={`/tools/${tool._id}/edit`}
-                className={styles.editButton}
-              >
+              <Link href={`/tools/${tool._id}/edit`} className={styles.editButton}>
                 Редагувати
               </Link>
               <button
@@ -184,7 +162,6 @@ export default function ToolCard({ tool }: ToolCardProps) {
               </button>
             </>
           ) : (
-            // Не власник (або не авторизований)
             <Link href={`/tools/${tool._id}`} className={styles.detailsButton}>
               Детальніше
             </Link>
