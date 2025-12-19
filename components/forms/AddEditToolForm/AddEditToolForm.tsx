@@ -198,7 +198,8 @@ export default function AddEditToolForm({
                 ? await updateTool(initialTool._id, formData)
                 : await createTool(formData);
 
-            router.push(`/tools/${savedTool._id}`);
+            // Після публікації/редагування перенаправляємо в профіль власника
+            router.push(`/profile/${userId}`);
             router.refresh();
           } catch (error) {
             const message =
