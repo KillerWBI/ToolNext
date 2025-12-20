@@ -1,84 +1,58 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.section {
+  margin-bottom: 72px;
+  display: flex;
+  flex-direction: column;
+}
+
 .title {
   font-weight: 700;
   font-size: 40px;
   line-height: 1.2;
   letter-spacing: -0.01em;
   color: #000;
-
   margin-bottom: 48px;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+  margin-top: 48px;
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
 }
 
 .photoBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.preview {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 24px;
+  margin-top: 8px;
+  border-radius: 16px;
+}
+
+.placeholderImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin-bottom: 24px;
+  margin-top: 8px;
+  border-radius: 16px;
 }
 
 .label {
   font-weight: 400;
   font-size: 18px;
-
-  /* line-height: 27px; */
   line-height: 1.5;
   color: #000;
-
-  margin-bottom: 4px;
-}
-
-.photoArea {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-}
-
-.photoInput {
-  cursor: pointer;
-  border-radius: 18px;
-  overflow: hidden;
-  width: 100%;
-  max-width: 335px;
-  min-height: 240px;
-  background: #e5e5e5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.preview {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.placeholderImage {
-  width: 140px;
-  max-width: 60%;
-  height: auto;
-  object-fit: contain;
-  opacity: 0.9;
 }
 
 .fileInput {
@@ -86,160 +60,228 @@
 }
 
 .uploadButton {
-  max-width: 335px;
-  margin-top: 12px;
-  width: 100%;
-  padding: 14px 18px;
-  border-radius: 10px;
   border: 2px solid #000;
-  background: #f6f6f6;
-  font-weight: 700;
-  font-size: 1rem;
+  border-radius: 6px;
+  padding: 10px 24px;
+  width: 100%;
+  height: 41px;
+  background-color: #f8f9fa;
   cursor: pointer;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.2s ease;
+  transition: transform 0.12s ease;
+  margin-bottom: 20px;
 }
 
-.uploadButton:hover {
-  background: #ffffff;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-}
-
-.uploadButton:active {
-  transform: translateY(0);
-  box-shadow: none;
-}
-
-@media only screen and (min-width: 768px) {
-  .photoArea {
-    width: 704px;
-  }
-
-  .photoInput {
-    width: 704px;
-    max-width: 100%;
-    min-height: 468px;
-    height: 468px;
-    border-radius: 16px;
-  }
-
-  .preview {
-    height: 100%;
-    min-height: 468px;
-  }
-
-  .placeholder {
-    min-height: 468px;
-  }
-
-  .uploadButton {
-    width: 704px;
-    max-width: 100%;
-    border-radius: 8px;
-  }
-
-  .input,
-  .select {
-    width: 704px;
-    max-width: 100%;
-    height: 43px;
-    padding: 8px 12px;
-    border-radius: 6px;
-  }
-
-  .textarea {
-    width: 704px;
-    max-width: 100%;
-    height: 180px;
-    min-height: 180px;
-    padding: 12px;
-    border-radius: 6px;
-  }
-}
-
-@media only screen and (min-width: 1440px) {
-  .photoArea {
-    max-width: 865px;
-  }
-
-  .photoInput {
-    width: 865px;
-    max-width: 100%;
-    height: 576px;
-    border-radius: 16px;
-  }
-
-  .preview {
-    height: 100%;
-    min-height: 576px;
-  }
-
-  .placeholder {
-    min-height: 576px;
-  }
-
-  .uploadButton {
-    width: 865px;
-    max-width: 100%;
-    border-radius: 8px;
-  }
-
-  .input,
-  .select {
-    width: 865px;
-    max-width: 100%;
-    height: 43px;
-  }
-
-  .textarea {
-    width: 865px;
-    max-width: 100%;
-    height: 180px;
-    min-height: 180px;
-  }
-}
-.fields {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-
-.input,
-.select,
-.textarea {
-  width: 100%;
-  height: 78px;
-  padding: 8px 12px;
+.input {
   border: 2px solid #000;
-  border-radius: 8px;
-  font-size: 1rem;
-  background: #f2f2f2;
+  border-radius: 6px;
+  padding: 8px 12px;
+  width: 335px;
+  height: 43px;
+  font-weight: 400;
+  font-size: 18px;
+  margin-bottom: 24px;
+  margin-top: 8px;
+  line-height: 1.5;
+  display: block;
+
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
 
-.input:focus,
-.select:focus,
-.textarea:focus {
-  outline: none;
-  border-color: #7b2cff;
-  box-shadow: 0 0 0 3px rgba(123, 44, 255, 0.18);
-  background: #fff;
+.input[type="number"]::-webkit-outer-spin-button,
+.input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+/* ******************************** CUSTOM SELECT ***************************/
+
+.select {
+  border: 2px solid #000;
+  border-radius: 6px;
+  padding: 8px 12px;
+  width: 335px;
+  height: 40px;
+  font-weight: 400;
+  font-size: 14px;
+  margin-bottom: 24px;
+  margin-top: 8px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.6);
+  display: block;
+  background: #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%233a3642' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='m1 1 5 5 5-5'/%3E%3C/svg%3E")
+    no-repeat right 12px center;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.select:focus {
+  border-color: #9b58ff;
+  box-shadow: 0 0 0 3px rgba(155, 88, 255, 0.18);
+  color: #3a3642;
+}
+
+.select option {
+  background: #f4ebff;
+  color: #3a3642;
+}
+
+.select option:checked {
+  background: rgba(155, 88, 255, 0.22);
+  color: #3a3642;
+}
+
+.selectWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.selectButton {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 2px solid #1c1c1c;
+  border-radius: 6px;
+  background: #ffffff;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #000;
+  cursor: pointer;
+  margin-bottom: 24px;
+  margin-top: 8px;
+}
+
+.selectButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.selectButton.selectOpen {
+  background: #f4e8ff;
+  border: 2px solid #b367f2;
+  border-radius: 6px 6px 0 0;
+}
+
+.arrow {
+  width: 12px;
+  height: 12px;
+  margin-left: auto;
+  transition: transform 0.2s ease;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% - 2px);
+  width: 100%;
+  max-height: 320px;
+  border: 2px solid #b367f2;
+  border-radius: 0 0 6px 6px;
+  background: #f4e8ff;
+  padding: 6px 0;
+  overflow-y: auto;
+  z-index: 10;
+  padding-right: 10px;
+}
+
+.dropdown::-webkit-scrollbar {
+  width: 7px;
+}
+
+.dropdown::-webkit-scrollbar-track {
+  background: #d7c4f6;
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.dropdown::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #7b1fa2;
+}
+
+.option {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 28px 8px 12px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-neutral-darkest, #1c1c1c);
+  cursor: pointer;
+}
+
+.option:hover {
+  background: #e6d6fb;
+}
+
+.selectedOption {
+  background: #e2c7f9;
 }
 
 .textarea {
-  resize: vertical;
-  min-height: 110px;
+  border: 2px solid #000;
+  border-radius: 6px;
+  padding: 12px;
+  width: 335px;
+  height: 180px;
+  font-weight: 400;
+  font-size: 18px;
+  margin-bottom: 24px;
+  margin-top: 8px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.6);
+  resize: none;
+  display: block;
+}
+
+.textarea:last-child {
+  margin-bottom: 0px;
+}
+
+.terms {
+  border: 2px solid #000;
+  border-radius: 6px;
+  padding: 8px 12px;
+  width: 335px;
+  height: 74px;
+  font-weight: 400;
+  font-size: 18px;
+  margin-bottom: 24px;
+  margin-top: 8px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.6);
+  display: block;
+  resize: none;
 }
 
 .error {
-  color: #d7263d;
-  font-size: 0.9rem;
-  margin: -2px 0 6px;
+  font-weight: 400;
+  font-size: 12px;
+
+  line-height: 1.5;
+  color: #c40202;
+  margin-top: -16px;
 }
 
 .hint {
@@ -250,29 +292,25 @@
 
 .actions {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 16px;
   justify-content: flex-start;
   flex-wrap: wrap;
 }
 
-.submit,
-.cancel {
-  width: 100%;
-  padding: 14px 18px;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    background-color 0.2s ease;
-}
-
 .submit {
-  background: #a400ff;
-  color: #ffffff;
-  border: 2px solid #9000e5;
+  border: 1px solid #8808cc;
+  border-radius: 6px;
+  padding: 10px 24px;
+  width: 335px;
+  height: 41px;
+  background-color: #8808cc;
+  font-weight: 500;
+  font-size: 14px;
+
+  /* line-height: 21px; */
+  line-height: 1.5;
+  color: #fff;
 }
 
 .submit:hover:not(:disabled) {
@@ -282,13 +320,19 @@
 
 .submit:disabled {
   cursor: not-allowed;
-  opacity: 0.7;
 }
 
 .cancel {
-  background: #ffffff;
-  color: #0f0f0f;
-  border: 2px solid #0f0f0f;
+  border: 2px solid #000;
+  border-radius: 6px;
+  padding: 10px 24px;
+  width: 335px;
+  height: 41px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #000;
+  background-color: #f8f9fa;
 }
 
 .cancel:hover:not(:disabled) {
@@ -314,4 +358,82 @@
   animation: spin 0.8s linear infinite;
   margin-right: 8px;
   vertical-align: middle;
+}
+.input:focus,
+.select:focus,
+.textarea:focus,
+.terms:focus {
+  outline: none;
+  border: 2px solid #8808cc;
+}
+
+@media only screen and (min-width: 768px) {
+  .uploadButton {
+    width: 181px;
+    height: 41px;
+  }
+
+  .input {
+    width: 704px;
+    height: 43px;
+  }
+
+  .terms {
+    width: 704px;
+    height: 43px;
+  }
+
+  .textarea {
+    width: 704px;
+    height: 180px;
+  }
+
+  .submit {
+    width: 704px;
+    height: 41px;
+  }
+
+  .cancel {
+    width: 704px;
+    height: 41px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .placeholderImage {
+    width: 865px;
+    height: 576px;
+  }
+
+  .input {
+    width: 865px;
+  }
+
+  .terms {
+    width: 865px;
+  }
+
+  .textarea {
+    width: 865px;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+  }
+
+  .submit {
+    width: 415px;
+    height: 44px;
+  }
+
+  .cancel {
+    width: 415px;
+    height: 44px;
+  }
+
+  .actions {
+    margin-top: 36px;
+  }
 }
