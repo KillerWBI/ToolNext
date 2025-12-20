@@ -77,6 +77,8 @@ export default function AddEditToolForm({
   const [categoriesError, setCategoriesError] = useState<string | null>(null);
   const [categoriesLoading, setCategoriesLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const categoryDropdownRef = useRef<HTMLDivElement | null>(null);
+  const [categoryOpen, setCategoryOpen] = useState(false);
 
   const initialValues: FormValues = useMemo(
     () => ({
@@ -154,8 +156,21 @@ export default function AddEditToolForm({
     router.back();
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        categoryDropdownRef.current &&
+        !categoryDropdownRef.current.contains(event.target as Node)
+      ) {
+        setCategoryOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <div>
+    <div className={styles.section}>
       <h1 className={styles.title}>
         {mode === "edit" ? "Редагувати інструмент" : "Публікація інструменту"}
       </h1>
@@ -216,212 +231,260 @@ export default function AddEditToolForm({
           }
         }}
       >
-        {({ isSubmitting, setFieldValue, status }) => (
-          <Form className={styles.form}>
-            <div className={styles.grid}>
-              <div className={styles.photoBlock}>
-                <label className={styles.label}>Фото інструменту</label>
-                <div className={styles.photoArea}>
-                  <div
-                    className={styles.photoInput}
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    {preview ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={preview}
-                        alt="Попередній перегляд"
-                        className={styles.preview}
-                      />
-                    ) : (
-                      <div className={styles.placeholder}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src="/image/PlaceholderAddPhoto.jpg"
-                          alt="Додайте зображення"
-                          className={styles.placeholderImage}
-                        />
+        {({ isSubmitting, setFieldValue, status, values }) => {
+          const currentCategoryLabel =
+            values.categoryId && categories.length
+              ? categories.find((c) => c._id === values.categoryId)?.title ||
+                "Оберіть категорію"
+              : categoriesLoading
+                ? "Завантаження..."
+                : "Оберіть категорію";
+
+          return (
+            <Form className={styles.form}>
+              <div className={styles.grid}>
+                <div>
+                  <div className={styles.photoBlock}>
+                    <label className={styles.label}>Фото інструменту</label>
+                    <div className={styles.photoArea}>
+                      <div className={styles.photoInput}>
+                        {preview ? (
+                          <img
+                            src={preview}
+                            alt="Попередній перегляд"
+                            className={styles.preview}
+                          />
+                        ) : (
+                          <div className={styles.placeholder}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src="/image/PlaceholderAddPhoto.jpg"
+                              alt="Додайте зображення"
+                              className={styles.placeholderImage}
+                            />
+                          </div>
+                        )}
                       </div>
-                    )}
+                      <input
+                        ref={fileInputRef}
+                        className={styles.fileInput}
+                        type="file"
+                        name="image"
+                        id="imageUpload"
+                        accept="image/*"
+                        onChange={(event) => {
+                          const file = event.currentTarget.files?.[0] || null;
+                          setFieldValue("image", file);
+                          if (file) {
+                            const url = URL.createObjectURL(file);
+                            setPreview(url);
+                          }
+                        }}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className={styles.uploadButton}
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      Завантажити фото
+                    </button>
+                    <ErrorMessage
+                      name="image"
+                      component="p"
+                      className={styles.error}
+                    />
                   </div>
-                  <input
-                    ref={fileInputRef}
-                    className={styles.fileInput}
-                    type="file"
-                    name="image"
-                    id="imageUpload"
-                    accept="image/*"
-                    onChange={(event) => {
-                      const file = event.currentTarget.files?.[0] || null;
-                      setFieldValue("image", file);
-                      if (file) {
-                        const url = URL.createObjectURL(file);
-                        setPreview(url);
+
+                  <div className={styles.fields}>
+                    <label className={styles.label} htmlFor="name">
+                      Назва
+                    </label>
+                    <Field
+                      id="name"
+                      name="name"
+                      placeholder="Наприклад, Перфоратор Bosch"
+                      className={styles.input}
+                    />
+                    <ErrorMessage
+                      name="name"
+                      component="p"
+                      className={styles.error}
+                    />
+
+                    <label className={styles.label} htmlFor="pricePerDay">
+                      Ціна/день
+                    </label>
+                    <Field
+                      id="pricePerDay"
+                      name="pricePerDay"
+                      type="number"
+                      placeholder="300"
+                      className={styles.input}
+                    />
+                    <ErrorMessage
+                      name="pricePerDay"
+                      component="p"
+                      className={styles.error}
+                    />
+
+                    <label className={styles.label} htmlFor="categoryId">
+                      Категорія
+                    </label>
+                    <div
+                      className={styles.selectWrapper}
+                      ref={categoryDropdownRef}
+                    >
+                      <button
+                        type="button"
+                        className={`${styles.selectButton} ${
+                          categoryOpen ? styles.selectOpen : ""
+                        }`}
+                        onClick={() =>
+                          !categoriesLoading && setCategoryOpen((prev) => !prev)
+                        }
+                        disabled={categoriesLoading}
+                      >
+                        {currentCategoryLabel}
+                        <svg
+                          className={`${styles.arrow} ${
+                            categoryOpen ? styles.open : ""
+                          }`}
+                        >
+                          <use href="/svg/sprite.svg#icon-Vector"></use>
+                        </svg>
+                      </button>
+
+                      {categoryOpen && (
+                        <div className={styles.dropdown}>
+                          <div
+                            className={`${styles.option} ${
+                              !values.categoryId ? styles.selectedOption : ""
+                            }`}
+                            onClick={() => {
+                              setFieldValue("categoryId", "");
+                              setCategoryOpen(false);
+                            }}
+                          >
+                            {categoriesLoading
+                              ? "Завантаження..."
+                              : "Оберіть категорію"}
+                          </div>
+                          {categories.map((category) => (
+                            <div
+                              key={category._id}
+                              className={`${styles.option} ${
+                                values.categoryId === category._id
+                                  ? styles.selectedOption
+                                  : ""
+                              }`}
+                              onClick={() => {
+                                setFieldValue("categoryId", category._id);
+                                setCategoryOpen(false);
+                              }}
+                            >
+                              {category.title}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <Field type="hidden" name="categoryId" />
+                    <ErrorMessage
+                      name="categoryId"
+                      component="p"
+                      className={styles.error}
+                    />
+                    {categoriesError && (
+                      <p className={styles.hint}>{categoriesError}</p>
+                    )}
+
+                    <label className={styles.label} htmlFor="terms">
+                      Умови оренди
+                    </label>
+                    <Field
+                      as="textarea"
+                      id="terms"
+                      name="terms"
+                      rows={2}
+                      placeholder="Застава 8000 грн. Станина та бак для води надаються."
+                      className={styles.terms}
+                    />
+                    <ErrorMessage
+                      name="terms"
+                      component="p"
+                      className={styles.error}
+                    />
+
+                    <label className={styles.label} htmlFor="description">
+                      Опис
+                    </label>
+                    <Field
+                      as="textarea"
+                      id="description"
+                      name="description"
+                      rows={3}
+                      placeholder="Ваш опис"
+                      className={styles.textarea}
+                    />
+                    <ErrorMessage
+                      name="description"
+                      component="p"
+                      className={styles.error}
+                    />
+
+                    <label className={styles.label} htmlFor="specifications">
+                      Характеристики
+                    </label>
+                    <Field
+                      as="textarea"
+                      id="specifications"
+                      name="specifications"
+                      rows={3}
+                      placeholder={
+                        "Потужність: 2кВт\nВага: 1 кг\nДвигун: щітковий"
                       }
-                    }}
-                  />
+                      className={styles.textarea}
+                    />
+                    <ErrorMessage
+                      name="specifications"
+                      component="p"
+                      className={styles.error}
+                    />
+                  </div>
                 </div>
+
+                {status?.error && (
+                  <div className={styles.statusError}>{status.error}</div>
+                )}
+              </div>
+              <div className={styles.actions}>
+                <button
+                  type="submit"
+                  className={styles.submit}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <span className={styles.loader} />
+                      {mode === "edit" ? "Оновлюємо..." : "Публікуємо..."}
+                    </>
+                  ) : (
+                    "Опублікувати"
+                  )}
+                </button>
                 <button
                   type="button"
-                  className={styles.uploadButton}
-                  onClick={() => fileInputRef.current?.click()}
+                  className={styles.cancel}
+                  onClick={handleCancel}
+                  disabled={isSubmitting}
                 >
-                  Завантажити фото
+                  Відмінити
                 </button>
-                <ErrorMessage
-                  name="image"
-                  component="p"
-                  className={styles.error}
-                />
               </div>
-
-              <div className={styles.fields}>
-                <label className={styles.label} htmlFor="name">
-                  Назва
-                </label>
-                <Field
-                  id="name"
-                  name="name"
-                  placeholder="Наприклад, Перфоратор Bosch"
-                  className={styles.input}
-                />
-                <ErrorMessage
-                  name="name"
-                  component="p"
-                  className={styles.error}
-                />
-
-                <label className={styles.label} htmlFor="pricePerDay">
-                  Ціна/день
-                </label>
-                <Field
-                  id="pricePerDay"
-                  name="pricePerDay"
-                  type="number"
-                  min="0"
-                  step="1"
-                  placeholder="300"
-                  className={styles.input}
-                />
-                <ErrorMessage
-                  name="pricePerDay"
-                  component="p"
-                  className={styles.error}
-                />
-
-                <label className={styles.label} htmlFor="categoryId">
-                  Категорія
-                </label>
-                <Field
-                  as="select"
-                  id="categoryId"
-                  name="categoryId"
-                  className={styles.select}
-                  disabled={categoriesLoading}
-                >
-                  <option value="">
-                    {categoriesLoading
-                      ? "Завантаження..."
-                      : "Оберіть категорію"}
-                  </option>
-                  {categories.map((category) => (
-                    <option key={category._id} value={category._id}>
-                      {category.title}
-                    </option>
-                  ))}
-                </Field>
-                <ErrorMessage
-                  name="categoryId"
-                  component="p"
-                  className={styles.error}
-                />
-                {categoriesError && (
-                  <p className={styles.hint}>{categoriesError}</p>
-                )}
-
-                <label className={styles.label} htmlFor="terms">
-                  Умови оренди
-                </label>
-                <Field
-                  as="textarea"
-                  id="terms"
-                  name="terms"
-                  rows={2}
-                  placeholder="Застава 8000 грн. Станина та бак для води надаються окремо."
-                  className={styles.textarea}
-                />
-                <ErrorMessage
-                  name="terms"
-                  component="p"
-                  className={styles.error}
-                />
-
-                <label className={styles.label} htmlFor="description">
-                  Опис
-                </label>
-                <Field
-                  as="textarea"
-                  id="description"
-                  name="description"
-                  rows={3}
-                  placeholder="Ваш опис"
-                  className={styles.textarea}
-                />
-                <ErrorMessage
-                  name="description"
-                  component="p"
-                  className={styles.error}
-                />
-
-                <label className={styles.label} htmlFor="specifications">
-                  Характеристики
-                </label>
-                <Field
-                  as="textarea"
-                  id="specifications"
-                  name="specifications"
-                  rows={3}
-                  placeholder="Характеристики інструменту"
-                  className={styles.textarea}
-                />
-                <ErrorMessage
-                  name="specifications"
-                  component="p"
-                  className={styles.error}
-                />
-              </div>
-            </div>
-
-            {status?.error && (
-              <div className={styles.statusError}>{status.error}</div>
-            )}
-
-            <div className={styles.actions}>
-              <button
-                type="submit"
-                className={styles.submit}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <span className={styles.loader} />
-                    {mode === "edit" ? "Оновлюємо..." : "Публікуємо..."}
-                  </>
-                ) : (
-                  "Опублікувати"
-                )}
-              </button>
-              <button
-                type="button"
-                className={styles.cancel}
-                onClick={handleCancel}
-                disabled={isSubmitting}
-              >
-                Відмінити
-              </button>
-            </div>
-          </Form>
-        )}
+            </Form>
+          );
+        }}
       </Formik>
     </div>
   );
