@@ -1,4 +1,5 @@
 import { ConfirmType, ConfirmVariant } from "@/types/confirm";
+import { useToolsStore } from "@/store/tools.store";
 
 type ConfirmConfigItem = {
   title: string;
@@ -28,6 +29,8 @@ export const confirmConfig: Record<ConfirmType, ConfirmConfigItem> = {
       if (!id) throw new Error("Missing id");
       const res = await fetch(`/api/tools/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Delete failed");
+      // Удаляем инструмент из стора после успешного удаления
+      useToolsStore.getState().removeTool(id);
     },
   },
 };
