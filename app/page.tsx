@@ -5,7 +5,6 @@ import RegistrationBlock from "@/components/home/RegistrationBlock/RegistrationB
 import { getFeedbacks } from "@/lib/api/feedbacks";
 import FeedbacksBlock from "../components/home/FeedbacksBlock/FeedbacksBlock";
 
-
 const feedbacks = await getFeedbacks();
 
 export const metadata = {
