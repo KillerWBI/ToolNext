@@ -9,6 +9,7 @@ interface User {
   email: string;
   name?: string;
   avatarUrl?: string;
+  avatar?: string; // на випадок, якщо бекенд повертає avatar
 }
 
 interface AuthState {
@@ -31,14 +32,26 @@ export const useAuthStore = create<AuthState>((set) => ({
     const attemptFetch = async (): Promise<User | null> => {
       try {
         const rawUser = await AuthMe();
-        return rawUser
-          ? { ...rawUser, id: rawUser.id ?? (rawUser as any)._id }
-          : null;
+        if (!rawUser) return null;
+
+        // 🔹 БЕКЕНД ТЕПЕР ПОВЕРТАЄ { success: true, data: {...} }
+        const data = (rawUser as any).data ?? rawUser;
+
+        const userWithId: User = {
+          ...data,
+          id:
+            data.id ??
+            (typeof data._id === "string"
+              ? data._id
+              : data._id?.toString?.()),
+        };
+
+        return userWithId;
       } catch (error) {
         if (axios.isAxiosError(error) && error.response?.status === 401) {
           return null;
         }
-        //console.error("Fetch user failed", error);
+        // console.error("Fetch user failed", error);
         return null;
       }
     };
@@ -47,11 +60,11 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     if (!user) {
       try {
-        // 401
+        // якщо перший раз не вдалось — пробуємо оновити сесію
         await refreshToken();
         user = await attemptFetch();
       } catch (err) {
-        //console.error("Refresh failed", err);
+        // console.error("Refresh failed", err);
       }
     }
 
@@ -64,11 +77,11 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   logout: async () => {
     try {
-      await logoutUser(); // вызываем backend logout
+      await logoutUser(); // викликаємо backend logout
     } catch (err) {
       console.error("Logout error:", err);
     } finally {
-      // чистим состояние на фронте
+      // чистимо стан на фронті
       set({ user: null, isAuthenticated: false });
     }
   },
