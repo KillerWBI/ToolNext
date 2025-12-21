@@ -11,7 +11,7 @@ import { PublicUser } from "@/types/user";
 export default function Header() {
   const { user, isAuthenticated, loading, logout } = useAuthStore();
 
-  console.log("User from store:", user);
+  
 
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
