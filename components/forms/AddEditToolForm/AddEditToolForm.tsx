@@ -102,6 +102,7 @@ export default function AddEditToolForm({
   });
   const categoryDropdownRef = useRef<HTMLDivElement | null>(null);
   const [categoryOpen, setCategoryOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
 
   const initialValues: FormValues = useMemo(
     () => ({
@@ -138,6 +139,7 @@ export default function AddEditToolForm({
             ? error.message
             : "Помилка під час завантаження категорій";
         setCategoriesError(message);
+        toast.error(message);
       } finally {
         setCategoriesLoading(false);
       }
@@ -146,6 +148,14 @@ export default function AddEditToolForm({
     fetchCategories();
 
     return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 768px)");
+    const handler = (event: MediaQueryListEvent) => setIsMobile(!event.matches);
+    setIsMobile(!media.matches);
+    media.addEventListener("change", handler);
+    return () => media.removeEventListener("change", handler);
   }, []);
 
   useEffect(() => {
@@ -494,12 +504,12 @@ export default function AddEditToolForm({
                       Умови оренди
                     </label>
                     <Field
-                      as="textarea"
+                      as={isMobile ? "textarea" : "input"}
                       id="terms"
                       name="terms"
-                      rows={2}
+                      rows={isMobile ? 2 : undefined}
                       placeholder="Застава 8000 грн. Станина та бак для води надаються."
-                      className={styles.terms}
+                      className={isMobile ? styles.terms : styles.input}
                     />
                     <ErrorMessage
                       name="terms"
