@@ -4,7 +4,6 @@ import FeaturedToolsBlock from "@/components/home/FeaturedToolsBlock/FeaturedToo
 import RegistrationBlock from "@/components/home/RegistrationBlock/RegistrationBlock";
 import FeedbacksBlock from "../components/home/FeedbacksBlock/FeedbacksBlock";
 import { getFeedbacks } from "@/lib/api/feedbacks";
-import ResetTools from "@/components/tools/ToolsGrid/ResetTools";
 
 const feedbacks = await getFeedbacks();
 
@@ -16,7 +15,6 @@ export const metadata = {
 export default function HomePage() {
     return (
         <main>
-            <ResetTools/>
             <HeroBlock />
             <BenefitsBlock />
             <FeaturedToolsBlock />
