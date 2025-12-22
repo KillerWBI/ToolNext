@@ -30,13 +30,15 @@
 }
 
 .preview {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  display: block;
   margin-bottom: 24px;
   margin-top: 8px;
   border-radius: 16px;
+}
+
+.previewImage {
+  width: 335px;
+  border-radius: 16px;
+  object-fit: cover;
 }
 
 .placeholderImage {
@@ -98,6 +100,7 @@
 .uploadButton:active {
   border: 2px solid #fff;
   background-color: #8808cc;
+  color: #fff;
 }
 
 .input {
@@ -351,6 +354,7 @@
 .submit:active {
   border: 2px solid #8808cc;
   background-color: #e7cdf4;
+  color: #000;
 }
 
 .submit:disabled {
@@ -390,6 +394,7 @@
 .cancel:active {
   border: 2px solid #fff;
   background-color: #8808cc;
+  color: #fff;
 }
 
 .statusError {
@@ -450,9 +455,17 @@
     width: 704px;
     height: 41px;
   }
+
+  .previewImage {
+    width: 704px;
+  }
 }
 
 @media only screen and (min-width: 1440px) {
+  .title {
+    font-size: 56px;
+  }
+
   .placeholderImage {
     width: 865px;
     height: 576px;
@@ -488,5 +501,14 @@
 
   .actions {
     margin-top: 36px;
+  }
+
+  .previewImage {
+    width: 865px;
+  }
+
+  .uploadButton {
+    width: 200px;
+    height: 44px;
   }
 }
