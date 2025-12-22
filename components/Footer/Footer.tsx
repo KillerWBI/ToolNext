@@ -3,7 +3,6 @@
 import Link from "next/link";
 import styles from "./Footer.module.css";
 import { useAuthStore } from "@/store/auth.store";
-import ScrollToTop from "@/components/ui/Button/Button";
 
 export default function Footer() {
   const { isAuthenticated } = useAuthStore();
