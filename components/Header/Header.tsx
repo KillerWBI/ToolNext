@@ -1,17 +1,17 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import LogoutModal from "@/app/@modal/confirmation/logout/page";
 import { useAuthStore } from "@/store/auth.store";
+import { PublicUser } from "@/types/user";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import MobileMenu from "../MobileMenu/MobileMenu";
 import styles from "./Header.module.css";
-import { PublicUser } from "@/types/user";
-
 export default function Header() {
   const { user, isAuthenticated, loading, logout } = useAuthStore();
+  const [showLogout, setShowLogout] = useState(false);
 
-  console.log("User from store:", user);
 
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
@@ -34,11 +34,7 @@ export default function Header() {
           {/* Логотип */}
           <div className={styles.logoWrapper}>
             <Link href="/">
-              <svg
-                width={162}
-                height={26}
-                aria-label="Company logo"
-              >
+              <svg width={162} height={26} aria-label="Company logo">
                 <use href="/svg/sprite.svg#icon-custom-logo" />
               </svg>
             </Link>
@@ -47,46 +43,28 @@ export default function Header() {
           {/* Навигация */}
           <div className={styles.navUserWrapper}>
             <nav className={styles.navHeader}>
-              <Link
-                href="/"
-                className={styles.headLink}
-              >
+              <Link href="/" className={styles.headLink}>
                 Головна
               </Link>
-              <Link
-                href="/tools"
-                className={styles.headLink}
-              >
+              <Link href="/tools" className={styles.headLink}>
                 Інструменти
               </Link>
 
               {isAuthenticated ? (
                 <>
-                  <Link
-                    href="/profile"
-                    className={styles.headLink}
-                  >
+                  <Link href="/profile" className={styles.headLink}>
                     Мій профіль
                   </Link>
-                  <Link
-                    href="/create"
-                    className={styles.socialButton}
-                  >
+                  <Link href="/create" className={styles.socialButton}>
                     Опублікувати оголошення
                   </Link>
                 </>
               ) : (
                 <>
-                  <Link
-                    href="/auth/login"
-                    className={styles.headLink}
-                  >
+                  <Link href="/auth/login" className={styles.headLink}>
                     Увійти
                   </Link>
-                  <Link
-                    href="/auth/register"
-                    className={styles.listButton}
-                  >
+                  <Link href="/auth/register" className={styles.listButton}>
                     Зареєструватися
                   </Link>
                 </>
@@ -124,7 +102,7 @@ export default function Header() {
 
                 <button
                   className={styles.logoutBtn}
-                  onClick={handleLogout}
+                  onClick={() => setShowLogout(true)}
                   aria-label="Вихід"
                 >
                   <svg
@@ -146,11 +124,7 @@ export default function Header() {
             onClick={() => setIsOpen((prev) => !prev)}
             aria-label="Відкрити меню"
           >
-            <svg
-              className={styles.icon}
-              width={40}
-              height={40}
-            >
+            <svg className={styles.icon} width={40} height={40}>
               <use href="/svg/sprite.svg#menu" />
             </svg>
           </button>
@@ -160,6 +134,10 @@ export default function Header() {
             isOpen={isOpen}
             onClose={() => setIsOpen(false)}
           />
+          {showLogout && (
+  <LogoutModal open={showLogout} onClose={() => setShowLogout(false)} />
+)}
+
         </div>
       </div>
     </header>
