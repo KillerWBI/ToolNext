@@ -87,7 +87,6 @@ export default function LoginPage() {
                 className={styles.logoIcon}
                 priority
               />
-              
             </Link>
 
             <div>
@@ -163,7 +162,7 @@ export default function LoginPage() {
 
           <div className={styles.imageSection} aria-hidden>
             <Image
-              src="/image/Placeholder Image.png"
+              src="/image/Placeholder-Image.webp"
               alt="Робоче місце з інструментами"
               fill
               priority

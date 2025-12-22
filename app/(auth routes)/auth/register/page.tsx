@@ -188,7 +188,7 @@ export default function RegisterPage() {
 
           <div className={styles.imageSection}>
             <Image
-              src="/image/Placeholder Image-1.png"
+              src="/image/Placeholder-Image-1.webp"
               alt="Робочі інструменти на полицях"
               fill
               priority
