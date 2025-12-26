@@ -103,6 +103,11 @@
   color: #fff;
 }
 
+.uploadButtonError {
+  border: 2px solid #c40202;
+  color: #c40202;
+}
+
 .input {
   border: 2px solid #000;
   border-radius: 6px;
@@ -125,6 +130,13 @@
 .selectError,
 .textareaError,
 .termsError {
+  border: 2px solid #c40202;
+  color: #c40202;
+}
+
+.input.inputError:focus,
+.textarea.textareaError:focus,
+.terms.termsError:focus {
   border: 2px solid #c40202;
 }
 
@@ -218,6 +230,7 @@
 .selectButton.selectError.selectOpen,
 .selectButton.selectError:focus {
   border: 2px solid #c40202;
+  color: #c40202;
 }
 
 .arrow {
@@ -307,6 +320,7 @@
 
 .textarea.textareaError {
   border: 2px solid #c40202;
+  color: #c40202;
 }
 
 .terms {
@@ -327,6 +341,7 @@
 
 .terms.termsError {
   border: 2px solid #c40202;
+  color: #c40202;
 }
 
 .error {

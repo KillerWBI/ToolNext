@@ -300,14 +300,14 @@ export default function AddEditToolForm({
                     ? payload.urls
                     : [];
                   finalImages = [...finalImages, ...uploaded].slice(0, 5);
-                  toast.success("✅ Фото успішно завантажено", {
+                  toast.success("Фото успішно завантажено", {
                     id: uploadToastId,
                   });
                 } catch (uploadError) {
                   toast.error(
                     uploadError instanceof Error
                       ? uploadError.message
-                      : "❌ Помилка при завантаженні фото",
+                      : "Помилка при завантаженні фото",
                     { id: uploadToastId }
                   );
                   throw uploadError;
@@ -322,7 +322,7 @@ export default function AddEditToolForm({
               }
 
               savedTool = await updateTool(initialTool._id, updatePayload);
-              toast.success("✅ Інструмент успішно оновлено!");
+              toast.success("Інструмент успішно оновлено!");
             } else {
               const formData = new FormData();
               formData.append("owner", userId);
@@ -342,7 +342,7 @@ export default function AddEditToolForm({
               }
 
               savedTool = await createTool(formData);
-              toast.success("✅ Інструмент успішно опубліковано!");
+              toast.success("Інструмент успішно опубліковано!");
             }
 
             // Обновляем сторы, чтобы карточки и профили сразу показали новые данные
@@ -374,7 +374,15 @@ export default function AddEditToolForm({
           }
         }}
       >
-        {({ isSubmitting, setFieldValue, status, values, errors, touched }) => {
+        {({
+          isSubmitting,
+          setFieldValue,
+          status,
+          values,
+          errors,
+          touched,
+          submitCount,
+        }) => {
           const currentCategoryLabel =
             values.categoryId && categories.length
               ? categories.find((c) => c._id === values.categoryId)?.title ||
@@ -383,7 +391,8 @@ export default function AddEditToolForm({
                 ? "Завантаження..."
                 : "Оберіть категорію";
           const hasError = (field: keyof FormValues) =>
-            Boolean(touched[field] && errors[field]);
+            Boolean((touched[field] || submitCount > 0) && errors[field]);
+          const imageError = hasError("image");
 
           return (
             <Form className={styles.form}>
@@ -399,6 +408,12 @@ export default function AddEditToolForm({
                     onImagesToDeleteChange={setImagesToDelete}
                     onPreviewChange={setPreview}
                     fileInputRef={fileInputRef}
+                    hasImageError={imageError}
+                  />
+                  <ErrorMessage
+                    name="image"
+                    component="p"
+                    className={styles.error}
                   />
 
                   <div className={styles.fields}>
