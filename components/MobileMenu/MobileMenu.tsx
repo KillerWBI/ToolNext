@@ -113,7 +113,10 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
                 <button
                   className={styles.logoutBtn}
-                  onClick={() => setShowLogout(true)}
+                  onClick={ () => {
+                  setShowLogout(true);
+                          }}
+
                   aria-label="Вихід"
                 >
                   <svg
@@ -142,14 +145,14 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               >
                 Зареєструватися
               </Link>
-              {showLogout && (
-                          <LogoutModal
-                            open={showLogout}
-                            onClose={() => setShowLogout(false)}
-                          />
-              )}
             </>
           )}
+          {showLogout && (
+                <LogoutModal
+                  open={showLogout}
+                  onClose={() => setShowLogout(false)}
+                />
+              )}
         </nav>
       </div>
     </div>
