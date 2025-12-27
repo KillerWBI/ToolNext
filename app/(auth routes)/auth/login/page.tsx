@@ -9,6 +9,8 @@ import { useAuthStore } from "@/store/auth.store";
 import toast from "react-hot-toast";
 import styles from "../register/AuthPage.module.css";
 
+const currentYear = new Date().getFullYear();
+
 const validationSchema = Yup.object({
   email: Yup.string()
     .trim()
@@ -78,7 +80,7 @@ export default function LoginPage() {
   } = formik;
 
   return (
-    <main className={styles.container}>
+    <main className={`${styles.container} ${styles.fadeIn}`}>
       <div className={styles.page}>
         <div className={styles.card}>
           <div className={styles.formSection}>
@@ -162,7 +164,7 @@ export default function LoginPage() {
                 <Link href="/auth/register">Реєстрація</Link>
               </div>
             </div>
-            <p className={styles.footerNote}>© 2025 ToolNext</p>
+            <p className={styles.footerNote}>© {currentYear} ToolNext</p>
           </div>
 
           <div className={styles.imageSection} aria-hidden>
