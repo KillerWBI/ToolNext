@@ -11,7 +11,7 @@ import "swiper/css/pagination";
 
 type Props = {
   feedbacks: Feedback[];
-  title: string;
+  title?: string;
   isShowFeedbackBtn?: boolean;
   onOpenFeedbackModal?: () => void;
 };
