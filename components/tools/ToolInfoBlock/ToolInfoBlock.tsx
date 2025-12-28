@@ -7,7 +7,7 @@ import css from "./ToolInfoBlock.module.css";
 import { useAuthStore } from "@/store/auth.store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AuthRequiredModal } from "@/components/AuthRequiredModal/AuthRequiredModal";
+import { AuthRequiredModal } from "@/components/modal/AuthRequiredModal/AuthRequiredModal";
 
 type ToolInfoBlockProps = {
   tool: Tool;
@@ -89,6 +89,9 @@ export const ToolInfoBlock = ({ tool, owner }: ToolInfoBlockProps) => {
           onRegisterBtn={handleRegisterClick}
           onLoginBtn={handleLoginClick}
           onCloseModal={closeModal}
+          description={
+            "Щоб забрронювати інструмент, треба спочатку зареєструватись, або авторизуватись на платформі"
+          }
         />
       )}
     </>

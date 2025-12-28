@@ -7,3 +7,19 @@ export type Feedback = {
     owner?: string | { _id: string; name: string; avatarUrl?: string };
     createdAt?: string;
 };
+
+export type CreateFeedbackPayload = {
+    toolId: string;
+    rate: number;
+    description: string;
+}
+
+export type FeedbacksByToolId = {
+    _id: string;
+    toolId: string;
+    owner: string;
+    name: string;
+    description: string;
+    rate: number;
+    createdAt: string;
+};

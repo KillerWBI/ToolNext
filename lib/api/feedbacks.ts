@@ -1,4 +1,4 @@
-import { Feedback } from "@/types/feedback";
+import { CreateFeedbackPayload, Feedback, FeedbacksByToolId } from "@/types/feedback";
 
 export async function getFeedbacks(): Promise<Feedback[]> {
     let allFeedbacks: Feedback[] = [];
@@ -99,3 +99,37 @@ export async function getFeedbacksByIds(
 
     return matches.slice(0, limit);
 }
+
+    export const getFeedbacksByToolId = async (toolId: string): Promise<FeedbacksByToolId[]> => {
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/feedbacks?toolId=${toolId}`,
+        { cache: "no-store" }
+    );
+
+    if (!res.ok) {
+        throw new Error("Failed to fetch feedbacks");
+    }
+
+    return res.json();
+};
+    
+
+export async function createFeedback(
+    payload: CreateFeedbackPayload
+) {
+    const res = await fetch(`/api/feedbacks`, {
+        method: "POST",
+        headers: {
+    'Content-Type': 'application/json',
+    },
+        body: JSON.stringify(payload),
+        credentials: "include",
+    });
+
+    if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to create feedback");
+    }
+
+    return res.json();
+};
