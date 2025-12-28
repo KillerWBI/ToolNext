@@ -117,7 +117,7 @@ export async function createFeedback(
 
     if (!res.ok) {
         const errorData = await res.json();
-        throw new Error(errorData.message || "Failed to create tool");
+        throw new Error(errorData.message || "Failed to create feedback");
     }
 
     return res.json();

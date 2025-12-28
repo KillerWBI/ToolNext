@@ -8,7 +8,6 @@ type PageProps = {
   params: { toolId: string };
 };
 
-
 export default async function BookingPage({ params }: PageProps) {
   // если params асинхронные:
   const { toolId } = await params; // <-- await
@@ -23,4 +22,3 @@ export default async function BookingPage({ params }: PageProps) {
 
   return <BookingToolForm tool={data} />;
 }
-
