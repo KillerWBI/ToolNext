@@ -102,7 +102,7 @@ export async function getFeedbacksByIds(
 
     export const getFeedbacksByToolId = async (toolId: string): Promise<FeedbacksByToolId[]> => {
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/feedbacks?toolId=${toolId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/feedbacks/tools/${toolId}`,
         { cache: "no-store" }
     );
 
@@ -110,7 +110,8 @@ export async function getFeedbacksByIds(
         throw new Error("Failed to fetch feedbacks");
     }
 
-    return res.json();
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
 };
     
 
